@@ -20,15 +20,24 @@ function geojsonStreamCentroid(inputFile, outputFile) {
         }
 
         const inputStream = fs.createReadStream(inputFile, {encoding: 'utf8'}).pipe(split());
+
+        const start = '{ "type": "FeatureCollection", "features": [';
+        fs.appendFileSync(outputFile, start, {encoding: 'utf8'});
+        let comma = '';
         inputStream.on('data', (chunk) => {
             if (chunk) {
                 const feature = JSON.parse(chunk);
                 const featureCentroid = turf.centroid(feature);
                 featureCentroid.properties['parent'] = feature;
-                fs.appendFileSync(outputFile, JSON.stringify(featureCentroid) + '\n', {encoding: 'utf8'});
+                fs.appendFileSync(outputFile, comma + JSON.stringify(featureCentroid), {encoding: 'utf8'});
+                if (!comma) {
+                    comma = ',';
+                }
             }
         });
         inputStream.on('end', () => {
+            const end = ']}';
+            fs.appendFileSync(outputFile, end, {encoding: 'utf8'});
             console.log('Centroids written to', outputFile);
             return resolve();
         });
