@@ -1,0 +1,20 @@
+{
+  "name": "geojson-stream-centroid",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "geojson-stream-centroid": "./geojsonStreamCentroid.js"
+  },
+  "author": "amishas157",
+  "license": "ISC",
+  "dependencies": {
+    "minimist": "^1.2.0",
+    "split": "^1.0.1",
+    "tape": "^4.8.0",
+    "turf": "^3.0.14"
+  }
+}
